@@ -1,18 +1,16 @@
-FROM resin/rpi-raspbian:latest
+ARG BUILD_FROM=hassioaddons/base-amd64:1.3.1
+FROM ${BUILD_FROM}
 
-RUN echo 'deb http://www.ubnt.com/downloads/unifi/debian stable ubiquiti' | sudo tee -a /etc/apt/sources.list.d/ubnt.list > /dev/null && \
+RUN echo 'deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti' | sudo tee -a /etc/apt/sources.list.d/ubnt.list > /dev/null && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv C0A52C50 && \
     apt-get update && \
     apt-get install wget apt-utils unifi -y && \
     echo 'ENABLE_MONGODB=no' | sudo tee -a /etc/mongodb.conf > /dev/null
     
-RUN wget http://central.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.4-M3/snappy-java-1.1.4-M3.jar && \
-    mv snappy-java-1.1.4-M3.jar /usr/lib/unifi/lib/snappy-*
+RUN wget http://central.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.7.1/snappy-java-1.1.7.1.jar && \
+    mv snappy-java-1.1.7.1.jar /usr/lib/unifi/lib/snappy-*
 
-RUN ln -s /data /usr/lib/unifi/data && \
-    mkdir -p /data/logs && \
-    touch /data/logs/server.log && \
-    ln -sf /dev/stdout /data/logs/server.log
+RUN ln -s /data /usr/lib/unifi/data
 
 WORKDIR /data
 
