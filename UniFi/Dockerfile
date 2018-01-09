@@ -1,5 +1,4 @@
-ARG BUILD_FROM=hassioaddons/base-amd64:1.3.1
-FROM ${BUILD_FROM}
+FROM resin/rpi-raspbian:latest
 
 RUN echo 'deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti' | sudo tee -a /etc/apt/sources.list.d/ubnt.list > /dev/null && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv C0A52C50 && \
